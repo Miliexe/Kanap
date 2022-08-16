@@ -62,7 +62,7 @@ function addToCart(id, color, quantity) {
     if (color == "") {
       alert("Veuillez sélectionner une couleur.");
     }
-    else if (Number.isNaN !== quantity) {
+    else if (Number.isNaN(quantity)) {
       alert("L'entrée saisie est incorrecte.");
     }
     else if (quantity <= 0 || quantity >= 101) {
