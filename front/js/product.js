@@ -71,7 +71,16 @@ function addToCart(id, color, quantity) {
   
     return;
   }
+
+  let cartJson = {
+    id : id,
+    color : color,
+    quantity : quantity
+  }
+  let cart = JSON.stringify(cartJson);
+  let key = localStorage.length +1;
+  localStorage.setItem(`item${key}`,cart);
+  console.log(localStorage);
   console.log(`ajout de :${quantity} Kanap ${color} `);
-  alert("L'article a été ajouté au panier.")
-  
+  alert("L'article a été ajouté au panier.");
 } 
