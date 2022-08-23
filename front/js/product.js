@@ -27,7 +27,7 @@ function showProduct(product) {
   title.innerText = `${product.name}`;
 
   let price = document.getElementById("price");
-  price.innerText = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(product.price);
+  price.innerText = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(product.price);
 
   let description = document.getElementById("description");
   description.innerText = `${product.description}`;
@@ -68,22 +68,60 @@ function addToCart(id, color, quantity) {
     else if (quantity <= 0 || quantity >= 101) {
       alert("Veuillez choisir une quantité entre 1 et 100.");
     }
-  
+
     return;
   }
 
   let cartJson = {
-    id : id,
-    color : color,
-    quantity : quantity
+    id: id,
+    color: color,
+    quantity: quantity
   }
-  let cart = JSON.stringify(cartJson);
-  let key = localStorage.length +1;
-  localStorage.setItem(`item${key}`,cart);
-  console.log(`ajout de :${quantity} Kanap ${color} `);
-  
-  for (var i = 0; i < localStorage.length; i++)
-  console.log( localStorage.key(i) +" has value " + localStorage[localStorage.key(i)] )
 
-  alert("L'article a été ajouté au panier.");
-} 
+  /* let key = localStorage.length +1;
+   localStorage.setItem(`item${key}`,cart);
+   console.log(`ajout de :${quantity} Kanap ${color} `);
+   
+   for (var i = 0; i < localStorage.length; i++)
+   console.log( localStorage.key(i) +" has value " + localStorage[localStorage.key(i)] )
+ 
+   alert("L'article a été ajouté au panier.");*/
+  let cart = getCart();
+  console.log(cart);
+  const same = cart.findIndex(item => (id === item.id && color === item.color))
+  console.log(same);
+  if (same == -1) {
+    cart.push(cartJson);
+  }
+  else {
+    const item = cart.find(item => (id === item.id && color === item.color))
+    let itemQuantity = item.quantity + quantity;
+    if (itemQuantity > 100) {
+      alert("Vous ne pouvez pas sélectionner plus de 100 articles.");
+    }
+    else {
+      item.quantity = itemQuantity;
+      console.log(item);
+    }
+    console.log(itemQuantity);
+  }
+
+  saveCart(cart);
+}
+
+function saveCart(cart) {
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+}
+
+function getCart() {
+  let cart = JSON.parse(localStorage.getItem("cart"));
+  if (cart == null) {
+    cart = [];
+  }
+  return cart;
+}
+
+function compareItems(cart) {
+
+}
