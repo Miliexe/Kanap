@@ -5,37 +5,41 @@ showCart();
 function getCart() {
     let cart = JSON.parse(localStorage.getItem("cart"));
     if (cart == null) {
-      cart = [];
+        cart = [];
     }
     console.log(cart);
     return cart;
-  }
+}
 
-async function showCart(){
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+async function showCart() {
     let cart = getCart();
     cart.sort((a, b) => {
-      if (a.id < b.id)
-          return -1;
-      if (a.id > b.id)
-          return 1;
-      return 0;
+        if (a.id < b.id)
+            return -1;
+        if (a.id > b.id)
+            return 1;
+        return 0;
     })
     console.log(cart);
-    for( var i = 0; i < cart.length; i++){
+    for (var i = 0; i < cart.length; i++) {
         let item = cart[i];
         console.log(item.id);
         await fetch(`http://localhost:3000/api/products/${item.id}`)
             .then((data) => data.json())
             .then((product) => {
 
-            showItem(product, item.quantity, item.color);
+                showItem(product, item.quantity, item.color);
 
-        })
-        
+            })
+
     }
 }
 
-function showItem(item, quantity, color){
+function showItem(item, quantity, color) {
     let sectionItems = document.getElementById("cart__items");
     let article = document.createElement("article");
     article.classList.add("cart__item");
@@ -43,7 +47,7 @@ function showItem(item, quantity, color){
     article.dataset.color = `${color}`
     sectionItems.appendChild(article);
 
-    let price = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(item.price*quantity);
+    let price = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(item.price * quantity);
 
     let divImg = document.createElement("div");
     divImg.classList.add("cart__item__img")
@@ -52,7 +56,7 @@ function showItem(item, quantity, color){
     img.src = `${item.imageUrl}`;
     img.alt = `${item.altTxt}`;
     divImg.appendChild(img);
-    
+
 
     let content = document.createElement("div");
     content.classList.add("cart__item__content");
@@ -84,6 +88,9 @@ function showItem(item, quantity, color){
     settingsQuantity.appendChild(settingsQuantityP);
     settingsQuantity.appendChild(settingsQuantityInput);
     content.appendChild(contentSettings);
+    settingsQuantityInput.addEventListener("input", () => {
+        modifyLine(item._id,color);
+    })
 
     let settingsDelete = document.createElement("div");
     contentSettings.appendChild(settingsDelete);
@@ -92,27 +99,36 @@ function showItem(item, quantity, color){
     settingsDelete.appendChild(deleteItemP);
     deleteItemP.classList.add("deleteItem");
     deleteItemP.innerText = "Supprimer";
+    deleteItemP.addEventListener("click", () => {
+        deleteLine(item._id, color);
+    })
 }
 
+function deleteLine(id, color) {
+    let cart = getCart();
+    const index = cart.findIndex(item => (id === item.id && color === item.color));
+    cart.splice(index, 1);
 
-  /*  <article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
-  <div class="cart__item__img">
-    <img src="../images/product01.jpg" alt="Photographie d'un canapé">
-  </div>
-  <div class="cart__item__content">
-    <div class="cart__item__content__description">
-      <h2>Nom du produit</h2>
-      <p>Vert</p>
-      <p>42,00 €</p>
-    </div>
-    <div class="cart__item__content__settings">
-      <div class="cart__item__content__settings__quantity">
-        <p>Qté : </p>
-        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-      </div>
-      <div class="cart__item__content__settings__delete">
-        <p class="deleteItem">Supprimer</p>
-      </div>
-    </div>
-  </div>
-</article> -->*/
+    let deleteItem = document.querySelector(`article[data-id="${id}"][data-color="${color}"]`);
+    console.log(deleteItem);
+    deleteItem.remove();
+    saveCart(cart);
+
+}
+
+function modifyLine(id, color) {
+   
+    let cart = getCart();
+
+    const item = cart.find(item => (id === item.id && color === item.color));
+    let newQuantity = document.querySelector(`article[data-id="${id}"][data-color="${color}"]`).getElementsByTagName('input')[0].value;
+
+    if (newQuantity <= 0 || newQuantity >= 101 || Number.isNaN(newQuantity)){
+        alert("saisie incorrecte");
+        document.querySelector(`article[data-id="${id}"][data-color="${color}"]`).getElementsByTagName('input')[0].value = item.quantity;
+    }
+    else{
+        item.quantity = newQuantity;
+        saveCart(cart);
+    }
+}
