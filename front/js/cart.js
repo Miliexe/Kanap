@@ -89,7 +89,10 @@ function showItem(item, quantity, color) {
     settingsQuantity.appendChild(settingsQuantityInput);
     content.appendChild(contentSettings);
     settingsQuantityInput.addEventListener("input", () => {
-        modifyLine(item._id,color);
+        modifyLine(item._id,color,item.price);
+        contentDescription.innerHTML = `<h2>${item.name}</h2>
+        <p>${color}</p>
+        <p>${newPrice}</p>`;
     })
 
     let settingsDelete = document.createElement("div");
@@ -116,7 +119,7 @@ function deleteLine(id, color) {
 
 }
 
-function modifyLine(id, color) {
+function modifyLine(id, color, price) {
    
     let cart = getCart();
 
@@ -129,6 +132,8 @@ function modifyLine(id, color) {
     }
     else{
         item.quantity = newQuantity;
+        newPrice = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(price * newQuantity);
+        
         saveCart(cart);
     }
 }
