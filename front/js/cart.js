@@ -33,10 +33,12 @@ async function showCart() {
             .then((product) => {
 
                 showItem(product, item.quantity, item.color);
-
+               // totalPrice(product, item.quantity);
             })
 
     }
+
+    showTotalQuantity();    
 }
 
 function showItem(item, quantity, color) {
@@ -117,6 +119,7 @@ function deleteLine(id, color) {
     deleteItem.remove();
     saveCart(cart);
 
+    showTotalQuantity();
 }
 
 function modifyLine(id, color, price) {
@@ -135,5 +138,49 @@ function modifyLine(id, color, price) {
         newPrice = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(price * newQuantity);
         
         saveCart(cart);
+        showTotalQuantity();
     }
+
+   
+}
+/*
+function totalPrice(item, quantity){
+
+    let cart = getCart();
+
+    let totalPrice = 0 ;
+    let linePrice = 0;
+    let i = 0;
+
+
+    console.log("START");
+
+    while (i < cart.length){
+    
+        console.log(`item price = ${item.price}`);
+        console.log(`qtt = ${quantity}`);
+        linePrice = item.price * quantity;
+        console.log(`line price = ${linePrice}`);
+        console.log(`total price before = ${totalPrice}`);
+        totalPrice += linePrice ;
+        console.log(`total price after = ${totalPrice}`);
+        i++;
+    }
+   
+    console.log("STOP");
+
+}*/
+
+function showTotalQuantity(){
+
+    let lineQuantity = document.getElementsByClassName('itemQuantity');
+    let itemQuantity = lineQuantity.length;
+    totalQuantity = 0;
+    
+    for (let i = 0; i < itemQuantity; i++) {
+        totalQuantity += lineQuantity[i].valueAsNumber;
+    }
+
+    let valueQuantity = document.getElementById('totalQuantity');
+    valueQuantity.innerHTML = totalQuantity;
 }
