@@ -25,7 +25,7 @@ async function showCart() {
         return 0;
     })
     console.log(cart);
-    for (var i = 0; i < cart.length; i++) {
+    for (let i = 0; i < cart.length; i++) {
         let item = cart[i];
         console.log(item.id);
         await fetch(`http://localhost:3000/api/products/${item.id}`)
@@ -163,7 +163,7 @@ async function showTotalPrice(){
 
     let totalPrice = 0;
 
-    for (var i = 0; i < cart.length; i++) {
+    for (let i = 0; i < cart.length; i++) {
         let item = cart[i];
         await fetch(`http://localhost:3000/api/products/${item.id}`)
             .then((data) => data.json())
@@ -176,3 +176,70 @@ async function showTotalPrice(){
 
     }
 }
+
+
+function checkFirstName(){
+    const firstName = document.getElementById("firstName").value;
+    const error = document.getElementById("firstNameErrorMsg");
+    const regex = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ-]+$/;
+
+    if(firstName.match(regex)){
+        error.innerText = "";
+        return true;
+    }
+    else{
+        error.innerText = "Champ invalide.";
+        return false;
+    }
+}
+
+document.getElementById("firstName").addEventListener("input", () => {
+    checkFirstName();
+});
+
+const order = document.getElementById("order");
+order.addEventListener("click", (e) => {
+    e.preventDefault();
+    let cart = getCart();
+    if (cart ==! null || cart.length > 0){
+        if (checkFirstName()){
+            let contact = {
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                address: document.getElementById("address").value,
+                city: document.getElementById("city").value,
+                email: document.getElementById("email").value,
+              }
+              let productsId = [];
+              
+              for (let i = 0; i < cart.length; i++) {
+                productsId.push(cart[i].id);
+              }
+              let orderN = {
+                contact: contact,
+                products: productsId,
+              }
+              console.log(orderN);
+    
+              fetch("http://localhost:3000/api/products/order", {
+                    method: "POST",
+                    body: JSON.stringify(orderN),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((data) => data.json())
+                .then((order) => {
+                    console.log(order);
+                    window.location.href=`./confirmation.html?id=${order.orderId}`;
+                })
+        }
+        else{
+            window.alert = "Veuillez remplir le formulaire."
+        }
+    }
+    else{
+        window.alert = "Votre panier est vide !" 
+    }
+});
