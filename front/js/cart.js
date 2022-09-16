@@ -197,12 +197,88 @@ document.getElementById("firstName").addEventListener("input", () => {
     checkFirstName();
 });
 
+function checkLastName(){
+    const lastName = document.getElementById("lastName").value;
+    const error = document.getElementById("lastNameErrorMsg");
+    const regex = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ -]+$/;
+
+    if(lastName.match(regex)){
+        error.innerText = "";
+        return true;
+    }
+    else{
+        error.innerText = "Champ invalide.";
+        return false;
+    }
+}
+
+document.getElementById("lastName").addEventListener("input", () => {
+    checkLastName();
+});
+
+function checkAddress(){
+    const address = document.getElementById("address").value;
+    const error = document.getElementById("addressErrorMsg");
+    const regex = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9999 -]+$/;
+
+    if(address.match(regex)){
+        error.innerText = "";
+        return true;
+    }
+    else{
+        error.innerText = "Champ invalide.";
+        return false;
+    }
+}
+
+document.getElementById("address").addEventListener("input", () => {
+    checkAddress();
+});
+
+function checkCity(){
+    const city = document.getElementById("city").value;
+    const error = document.getElementById("cityErrorMsg");
+    const regex = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ -]+$/;
+
+    if(city.match(regex)){
+        error.innerText = "";
+        return true;
+    }
+    else{
+        error.innerText = "Champ invalide.";
+        return false;
+    }
+}
+
+document.getElementById("city").addEventListener("input", () => {
+    checkCity();
+});
+
+function checkEmail(){
+    const email = document.getElementById("email").value;
+    const error = document.getElementById("emailErrorMsg");
+    const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if(email.match(regex)){
+        error.innerText = "";
+        return true;
+    }
+    else{
+        error.innerText = "Champ invalide.";
+        return false;
+    }
+}
+
+document.getElementById("email").addEventListener("input", () => {
+    checkEmail();
+});
+
 const order = document.getElementById("order");
 order.addEventListener("click", (e) => {
     e.preventDefault();
     let cart = getCart();
     if (cart ==! null || cart.length > 0){
-        if (checkFirstName()){
+        if (checkFirstName() & checkLastName() & checkAddress() & checkCity() & checkEmail()){
             let contact = {
                 firstName: document.getElementById("firstName").value,
                 lastName: document.getElementById("lastName").value,
@@ -236,10 +312,10 @@ order.addEventListener("click", (e) => {
                 })
         }
         else{
-            window.alert = "Veuillez remplir le formulaire."
+            window.alert("Veuillez remplir le formulaire.");
         }
     }
     else{
-        window.alert = "Votre panier est vide !" 
+        window.alert("Votre panier est vide !");
     }
 });
