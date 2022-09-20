@@ -54,6 +54,7 @@ addToCartBtn.addEventListener("click", () => {
   let quantity = parseInt(itemQuantity());
   let color = itemColor();
   addToCart(id, color, quantity);
+  window.alert("Ajouté au panier.");
 });
 
 function addToCart(id, color, quantity) {
