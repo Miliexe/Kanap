@@ -54,7 +54,6 @@ addToCartBtn.addEventListener("click", () => {
   let quantity = parseInt(itemQuantity());
   let color = itemColor();
   addToCart(id, color, quantity);
-  window.alert("Ajouté au panier.");
 });
 
 function addToCart(id, color, quantity) {
@@ -93,6 +92,7 @@ function addToCart(id, color, quantity) {
   console.log(same);
   if (same == -1) {
     cart.push(cartJson);
+    window.alert("Ajouté au panier.");
   }
   else {
     const item = cart.find(item => (id === item.id && color === item.color))
@@ -103,6 +103,7 @@ function addToCart(id, color, quantity) {
     else {
       item.quantity = itemQuantity;
       console.log(item);
+      window.alert("Ajouté au panier.");
     }
     console.log(itemQuantity);
   }
@@ -121,8 +122,4 @@ function getCart() {
     cart = [];
   }
   return cart;
-}
-
-function compareItems(cart) {
-
 }
