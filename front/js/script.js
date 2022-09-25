@@ -1,6 +1,6 @@
 console.log("Page d'accueil");
 
-//asking for server stored products
+//récupération des produits depuis l'api
 fetch("http://localhost:3000/api/products/")
     .then((product) => product.json())
     .then((products) => {
@@ -9,13 +9,15 @@ fetch("http://localhost:3000/api/products/")
 
     })
 
-//products insertion into "items" blocs
+
+//affichage des produits
 function showProducts(products) {
 
-    for (let product of products) {
+    //insertion des données de chaques produits dans l'html
+    for (let product of products) { 
         let sectionItems = document.getElementById("items");
         let a = document.createElement("a");
-        a.href = `product.html?id=${product._id}`
+        a.href = `product.html?id=${product._id}` //lien contenant l'id du produit
         sectionItems.appendChild(a);
 
         let article = document.createElement("article");

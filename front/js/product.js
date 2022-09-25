@@ -1,12 +1,13 @@
 console.log("Page produit");
 console.log(window.location);
 
-let url = new URL(window.location)
-
-let id = url.searchParams.get("id")
+//récupération de l'id depuis l'url
+let url = new URL(window.location);
+let id = url.searchParams.get("id");
 
 console.log(id);
 
+//récupération du produit depuis l'api
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((data) => data.json())
   .then((product) => {
@@ -15,8 +16,10 @@ fetch(`http://localhost:3000/api/products/${id}`)
 
   })
 
+//affichage du produit
 function showProduct(product) {
 
+  //insertion des données du produit dans l'html
   let divImg = document.querySelector(".item__img");
   let img = document.createElement("img");
   img.src = `${product.imageUrl}`;
@@ -32,29 +35,33 @@ function showProduct(product) {
   let description = document.getElementById("description");
   description.innerText = `${product.description}`;
 
+  //insertion des couleurs disponibles dans le menu déroulant
   for (let colors in product.colors) {
     let color = document.getElementById("colors");
     color.innerHTML += `<option value="${product.colors[colors]}">${product.colors[colors]}</option>`;
   }
 }
 
+//récupération de la quantité saisie
 function itemQuantity() {
   let quantity = document.getElementById("quantity");
   return quantity.value;
 }
 
+//récupération de la couleur sélectionnée
 function itemColor() {
   let color = document.getElementById("colors");
   return color.value;
 }
 
-
+//configuration du bouton "Ajouter au panier"
 const addToCartBtn = document.getElementById("addToCart");
 addToCartBtn.addEventListener("click", () => {
-  let quantity = parseInt(itemQuantity());
+  let quantity = parseInt(itemQuantity()); //conversion de la quantité en nombre entier
   let color = itemColor();
   addToCart(id, color, quantity);
 });
+
 
 function addToCart(id, color, quantity) {
 
