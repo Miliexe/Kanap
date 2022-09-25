@@ -158,7 +158,7 @@ function modifyLine(id, color, price) {
     //ciblage de l'article à modifier
     const item = cart.find(item => (id === item.id && color === item.color));
     //récupération de la nouvelle quantité
-    let newQuantity = document.querySelector(`article[data-id="${id}"][data-color="${color}"]`).getElementsByTagName('input')[0].value;
+    let newQuantity = parseInt(document.querySelector(`article[data-id="${id}"][data-color="${color}"]`).getElementsByTagName('input')[0].value);
 
     //contrôle de la quantité
     if (newQuantity <= 0 || newQuantity >= 101 || Number.isNaN(newQuantity)){
@@ -192,7 +192,7 @@ function showTotalQuantity(){
 
     //affichage de la quantité totale
     let valueQuantity = document.getElementById('totalQuantity');
-    valueQuantity.innerHTML = totalQuantity;
+    valueQuantity.innerHTML = parseInt(totalQuantity);
 }
 
 //affichage du prix total
