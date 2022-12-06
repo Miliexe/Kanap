@@ -1,6 +1,30 @@
-# Kanap #
 
-This is the front end and back end server for Project 5 of the Web Developer path.
+![Logo](https://user.oc-static.com/upload/2021/09/29/16329291678171_image2.png)
+
+# Construisez un site e-commerce en JavaScript
+
+
+
+## Compétences évaluée:
+
+ - Créer un plan de test pour une application
+ - Gérer des événements JavaScript
+ - Interagir avec un web service avec JavaScript
+ - Valider des données issues de sources externes
+ 
+## Screenshots
+
+### Home
+
+![App Screenshot](https://github.com/Miliexe/working_datas/blob/main/Screenshots/Kanap/Kanap_home.png?raw=true)
+
+### Product
+
+![App Screenshot](https://github.com/Miliexe/working_datas/blob/main/Screenshots/Kanap/Kanap_product.png?raw=true)
+
+### Cart
+
+![App Screenshot](https://github.com/Miliexe/working_datas/blob/main/Screenshots/Kanap/Kanap_cart.png?raw=true)
 
 ### Back end Prerequisites ###
 
