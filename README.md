@@ -5,7 +5,7 @@
 
 
 
-## Compétences évaluée:
+## Compétences évaluées:
 
  - Créer un plan de test pour une application
  - Gérer des événements JavaScript
